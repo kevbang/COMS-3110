@@ -1,4 +1,6 @@
-
+'''
+author: Kevin Tran
+'''
 
 def hasDuplicate(self, nums: list) -> bool:
     num_dict = {}
