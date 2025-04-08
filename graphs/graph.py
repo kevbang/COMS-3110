@@ -15,7 +15,7 @@ class Graph:
             self.adj_matrix[v][u] = 1
 
 
-    def print(self):
+    def print_graph(self):
         print("Adjacency Matrix")
 
         for row in self.adj_matrix:
@@ -25,6 +25,27 @@ class Graph:
         print("\nVertex Data:")
         for vertex, data in enumerate(self.vertex_data):
             print(f"Vertex: {vertex}: {data}")
+
+    def dfs(self, v, visited, parent):
+        visited[v] = True
+
+        for i in range(self.size):
+            if self.adj_matrix[v][i] == 1:
+                if not visited[i]:
+                    if self.dfs(i, visited, v):
+                        return True
+                elif parent != i:
+                    return True
+        return False
+    
+    def is_cyclic(self):
+        visited = [False] * self.size
+
+        for i in range(self.size):
+            if not visited[i]:
+                if self.dfs(i, visited, -1):
+                    return True
+        return False
 
 
 
@@ -40,4 +61,4 @@ if __name__ == "__main__":
     g.add_edge(0, 3) # A - D
     g.add_edge(1, 2) # B - C
 
-    g.print()
+    g.print_graph()
