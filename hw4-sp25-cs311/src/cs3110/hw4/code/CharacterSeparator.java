@@ -1,10 +1,10 @@
-package cs3110.hw4;
+package cs3110.hw4.code;
+/**
+ * @author Kevin Tran
+ * 4/20/2025
+ */
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class CharacterSeparator {
     /**

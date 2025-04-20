@@ -1,8 +1,34 @@
-package cs3110.hw4;
-
+package cs3110.hw4.code;
+/**
+ * @author Kevin Tran
+ * 4/20/2025
+ */
 import java.util.*;
 
 public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
+
+    private final Map<T, List<T>> adjacency_list;
+
+
+    /*
+     * This constructor initializes the graph with the given list of vertices. This list
+     * may be empty.
+     */
+    public WeightedAdjacencyList(List<T> vertices) {
+
+        adjacency_list = new HashMap<>();
+        for (T vertex : vertices) {
+            adjacency_list.put(vertex, new ArrayList<>());
+        }
+
+    }
+
+
+
+
+
+
+
     /**
      * Adds the directed edge (u,v) to the graph. If the edge is already present, it should not be modified.
      * @param u The source vertex.

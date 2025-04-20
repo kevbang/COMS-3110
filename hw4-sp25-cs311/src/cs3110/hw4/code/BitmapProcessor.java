@@ -1,4 +1,4 @@
-package cs3110.hw4;
+package cs3110.hw4.code;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
