@@ -1,4 +1,4 @@
-package cs3110.hw4;
+package cs3110.hw4.code;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -51,9 +51,37 @@ public final class BitmapProcessor {
         if (mat.length != h || mat[0].length != w)
             throw new Exception("Dimension mismatch: Unable to update image matrix.");
 
-        for (var i = 0; i < h; i++)
-            for (var j = 0; j < w; j++)
+        final int RED = 0xFFFF0000;   // Red color for empty rows
+        final int GREEN = 0xFF00FF00; // Green color for empty columns
+
+        for (var i = 0; i < h; i++) {
+            boolean isEmptyRow = true;
+            for (var j = 0; j < w; j++) {
+                if ((mat[i][j] & 0xFFFFFF) != 0xFFFFFF) { // Check if the pixel is not white
+                    isEmptyRow = false;
+                }
                 bi.setRGB(j, i, mat[i][j] | 0xFF000000);
+    }
+            if (isEmptyRow) {
+                for (var j = 0; j < w; j++) {
+                    bi.setRGB(j, i, RED);
+                }
+            }
+        }
+
+        for (var j = 0; j < w; j++) {
+            boolean isEmptyCol = true;
+            for (var i = 0; i < h; i++) {
+                if ((mat[i][j] & 0xFFFFFF) != 0xFFFFFF) { // Check if the pixel is not white
+                    isEmptyCol = false;
+                }
+            }
+            if (isEmptyCol) {
+                for (var i = 0; i < h; i++) {
+                    bi.setRGB(j, i, GREEN);
+                }
+            }
+        }
     }
 
     /**

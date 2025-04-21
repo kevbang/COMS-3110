@@ -1,4 +1,8 @@
-package cs3110.hw4;
+package cs3110.hw4.code;
+/**
+ * @author Kevin Tran
+ * 4/20/2025
+ */
 
 import java.util.Objects;
 
