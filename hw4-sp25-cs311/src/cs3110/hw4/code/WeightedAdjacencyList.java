@@ -7,7 +7,9 @@ import java.util.*;
 
 public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
 
-    private final Map<T, List<T>> adjacency_list;
+    // The graph represented as an adjacency list.
+    // For each vertex, map neighbors to edge weights
+    private final Map<T, Map<T, Integer>> adjacency_list;
 
 
     /*
@@ -15,10 +17,9 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
      * may be empty.
      */
     public WeightedAdjacencyList(List<T> vertices) {
-
         adjacency_list = new HashMap<>();
         for (T vertex : vertices) {
-            adjacency_list.put(vertex, new ArrayList<>());
+            adjacency_list.put(vertex, new HashMap<>());
         }
 
     }
@@ -38,7 +39,17 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
      */
     @Override
     public boolean addEdge(T u, T v, int weight) {
-        return false;
+        if (!adjacency_list.containsKey(u) || !adjacency_list.containsKey(v))
+            return false;
+
+        Map<T, Integer> neighbors = adjacency_list.get(u);
+        // to avoid duplicate edges, check if the edge already exists
+        if(neighbors.containsKey(v))
+            return false;
+
+        // otherwise
+        neighbors.put(v, weight);
+        return true;
     }
 
     /**
@@ -47,7 +58,14 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
      */
     @Override
     public boolean addVertex(T vertex) {
-        return false;
+        // if the vertex is already in the graph, return false
+        if (adjacency_list.containsKey(vertex)) {
+            return false;
+        }
+
+        // add the vertex to the graph
+        adjacency_list.put(vertex, new HashMap<>());
+        return true;
     }
 
     /**
@@ -55,7 +73,7 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
      */
     @Override
     public int getVertexCount() {
-        return 0;
+        return adjacency_list.size();
     }
 
     /**
@@ -64,7 +82,7 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
      */
     @Override
     public boolean hasVertex(T v) {
-        return false;
+        return adjacency_list.containsKey(v);
     }
 
     /**
@@ -72,7 +90,7 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
      */
     @Override
     public Iterable<T> getVertices() {
-        return null;
+        return adjacency_list.keySet();
     }
 
     /**
@@ -80,7 +98,11 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
      */
     @Override
     public int getEdgeCount() {
-        return 0;
+        int count = 0;
+        for (Map<T, Integer> neighbors : adjacency_list.values()) {
+            count += neighbors.size();
+        }
+        return count;
     }
 
     /**
@@ -90,7 +112,7 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
      */
     @Override
     public boolean hasEdge(T u, T v) {
-        return false;
+        return adjacency_list.containsKey(u) && adjacency_list.get(u).containsKey(v);
     }
 
     /**
@@ -99,7 +121,7 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
      */
     @Override
     public Iterable<T> getNeighbors(T u) {
-        return null;
+        return adjacency_list.get(u).keySet();
     }
 
     /**
@@ -120,6 +142,44 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
      */
     @Override
     public Map<T, Long> getShortestPaths(T s) {
-        return Map.of();
+        Map<T, Long> distances = new HashMap<>();
+        PriorityQueue<Pair<T, Long>> priority_queue = new PriorityQueue<>(Comparator.comparingLong(Pair::getSecond));
+
+        // initialize distances to infinity initially
+        for(T vertex: adjacency_list.keySet()) {
+            distances.put(vertex, Long.MAX_VALUE);
+        }
+
+        distances.put(s, 0L);
+        priority_queue.add(new Pair<>(s, 0L));
+
+        while(!priority_queue.isEmpty()) {
+            Pair<T, Long> current = priority_queue.poll();
+            T u = current.getFirst();
+            long dist = current.getSecond();
+
+            if (dist > distances.get(u)) {
+                continue; // Skip if we have already found a better path
+            }
+
+            // iterate through all neighbors of u
+            for (Map.Entry<T, Integer> entry : adjacency_list.get(u).entrySet()) {
+                T v = entry.getKey();
+                int weight = entry.getValue();
+                long new_dist = dist + weight;
+
+                // if the new distance is less than the current distance, add the distance to the map with new best distance
+                // and add the vertex to the priority queue
+                if( new_dist < distances.get(v)) {
+                    distances.put(v, new_dist);
+                    priority_queue.add(new Pair<>(v, new_dist));
+                }
+            }
+
+        }
+
+
+
+        return distances;
     }
 }
