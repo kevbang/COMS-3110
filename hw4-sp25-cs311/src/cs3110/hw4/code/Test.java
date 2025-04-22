@@ -8,7 +8,7 @@ import java.util.List;
 public class Test {
     public static void main(String[] args) throws IOException {
 
-        String path = "src/cs3110/hw4/test/ex1-upload.bmp";
+        String path = "src/cs3110/hw4/test/test1.bmp";
         BitmapProcessor bitmap_processor = new BitmapProcessor(path);
 
         int[][] rgb_grid = bitmap_processor.getRGBMatrix();
