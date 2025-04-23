@@ -64,7 +64,7 @@ public final class BitmapProcessor {
     }
             if (isEmptyRow) {
                 for (var j = 0; j < w; j++) {
-                    bi.setRGB(j, i, RED);
+                    bi.setRGB(j, i, 0xFFFF0000);
                 }
             }
         }
