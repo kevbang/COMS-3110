@@ -19,15 +19,16 @@ public class CharacterSeparator {
     public static <T> Pair<List<Integer>, List<Integer>> findSeparationWeighted(String path) {
 
         try {
-
+            // create a bitmap processor object and get the rgb grid
             BitmapProcessor bitmap_processor = new BitmapProcessor(path);
             int[][] rgb_grid = bitmap_processor.getRGBMatrix();
 
+
+            // get the height and width of the image
             int height = rgb_grid.length;
             int width = rgb_grid[0].length;
 
-            // Create graph
-
+            // Create graph vertices by iterating through the grid and adding each pixel as a vertex
             List<Pair<Integer, Integer>> vertices = new ArrayList<>();
             for(int row = 0; row < height; row++) {
                 for(int col = 0; col < width; col++) {
@@ -35,19 +36,22 @@ public class CharacterSeparator {
                 }
             }
 
+            // create a graph object
             WeightedAdjacencyList<Pair<Integer, Integer>> graph = new WeightedAdjacencyList<>(vertices);
+            // Create a list of directions to move in the grid
             int[][] directions = {
                     {0, 1}, // right
                     {1, 0}, // down
                     {0, -1}, // left
                     {-1, 0} // up
             };
-            // Add edges to the graph
 
+            // Add edges to the graph
             for(int row = 0; row < height; row++) {
                 for(int col = 0; col < width; col++) {
                     Pair<Integer, Integer> from = new Pair<>(row, col);
 
+                    // for each direction, check if the pixel is within bounds
                     for(int[] direction : directions) {
                         int new_row = row + direction[0];
                         int new_col = col + direction[1];
@@ -56,8 +60,11 @@ public class CharacterSeparator {
                         if(new_row >= 0 && new_row < height && new_col >= 0 && new_col < width) {
                             Pair<Integer, Integer> to = new Pair<>(new_row, new_col);
                             // weight is 1 if the pixel is white, 0 if the pixel is black
+                            // int weight = (rgb_grid[row][col] == 0xFFFFFFFF) ? 0 : 1;
 
-                            int weight = (rgb_grid[row][col] == 0xFFFFFFFF) ? 0 : 1;
+                            // weight is the positive value of hex color
+                            int weight = (rgb_grid[row][col] * -1);
+                            System.out.println("Weight: " + weight);
                             graph.addEdge(from, to, weight);
                         }
                     }
@@ -80,9 +87,9 @@ public class CharacterSeparator {
             }
 
             // check for whitespace cols
-
             List<Integer> whitespace_cols = new ArrayList<>();
 
+            // for each column, check if the top and bottom are connected
             for(int col = 0; col < width; col++) {
                 Pair<Integer, Integer> top = new Pair<>(0, col);
                 Pair<Integer, Integer> bottom = new Pair<>(height - 1, col);
@@ -97,17 +104,10 @@ public class CharacterSeparator {
 
             // return the whitespace rows and cols
             return new Pair<>(whitespace_rows, whitespace_cols);
-
-
-
         }
         catch (Exception e) {
             System.out.println("Error loading image: " + e.getMessage());
             return null;
         }
-
-
-
-
     }
 }
