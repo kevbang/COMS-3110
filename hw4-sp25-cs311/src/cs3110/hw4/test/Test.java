@@ -49,6 +49,9 @@ public class Test {
         List<Integer> whitespace_rows = whitespace.getFirst();
         List<Integer> whitespace_cols = whitespace.getSecond();
 
+        System.out.println("Whitespace rows: " + whitespace_rows);
+        System.out.println("Whitespace cols: " + whitespace_cols);
+
         final int RED = 0xFFFF0000;
         final int GREEN = 0xFF00FF00;
 
@@ -60,11 +63,6 @@ public class Test {
         }
 
 
-
-
-
-
-
-
     }
+
 }

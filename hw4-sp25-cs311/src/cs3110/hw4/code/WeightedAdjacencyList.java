@@ -24,12 +24,6 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
 
     }
 
-
-
-
-
-
-
     /**
      * Adds the directed edge (u,v) to the graph. If the edge is already present, it should not be modified.
      * @param u The source vertex.
@@ -150,9 +144,11 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
             distances.put(vertex, Long.MAX_VALUE);
         }
 
+        // set the distance to the source vertex to 0
         distances.put(s, 0L);
         priority_queue.add(new Pair<>(s, 0L));
 
+        // while the priority queue is not empty
         while(!priority_queue.isEmpty()) {
             Pair<T, Long> current = priority_queue.poll();
             T u = current.getFirst();
@@ -166,6 +162,12 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
             for (Map.Entry<T, Integer> entry : adjacency_list.get(u).entrySet()) {
                 T v = entry.getKey();
                 int weight = entry.getValue();
+
+                //check for a negative weight. If there is a negative weight, terminate.
+                if(weight < 0) {
+                    throw new IllegalArgumentException("Weight cannot be negative");
+                }
+
                 long new_dist = dist + weight;
 
                 // if the new distance is less than the current distance, add the distance to the map with new best distance
@@ -177,8 +179,6 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
             }
 
         }
-
-
 
         return distances;
     }
