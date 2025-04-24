@@ -168,6 +168,7 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
                     throw new IllegalArgumentException("Weight cannot be negative");
                 }
 
+                // calculate the new distance to the neighbor
                 long new_dist = dist + weight;
 
                 // if the new distance is less than the current distance, add the distance to the map with new best distance
@@ -177,9 +178,7 @@ public class WeightedAdjacencyList<T> implements WeightedGraph<T> {
                     priority_queue.add(new Pair<>(v, new_dist));
                 }
             }
-
         }
-
         return distances;
     }
 }

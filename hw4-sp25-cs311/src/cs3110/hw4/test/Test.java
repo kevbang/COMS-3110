@@ -1,5 +1,13 @@
 package cs3110.hw4.test;
 
+/*
+ * @author Kevin Tran
+ * 4/20/2025
+ *
+ * This class contains test cases for the WeightedAdjacencyList and CharacterSeparator classes.
+ * Do not grade this file please.
+ */
+
 import cs3110.hw4.code.BitmapProcessor;
 import cs3110.hw4.code.CharacterSeparator;
 import cs3110.hw4.code.Pair;

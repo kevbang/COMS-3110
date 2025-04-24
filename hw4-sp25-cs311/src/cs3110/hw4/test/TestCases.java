@@ -1,5 +1,13 @@
 package cs3110.hw4.test;
 
+/*
+ * @author Kevin Tran
+ * 4/20/2025
+ *
+ * This class contains test cases for the WeightedAdjacencyList and CharacterSeparator classes.
+ * Do not grade this file.
+ */
+
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +67,30 @@ public class TestCases {
         // Expected whitespace rows and columns
         List<Integer> expectedWhitespaceRows = List.of(2, 3, 22, 23, 24); // Example rows
         List<Integer> expectedWhitespaceCols = List.of(13, 14, 27, 28);    // Example columns
+
+        // Call the method
+        Pair<List<Integer>, List<Integer>> result = CharacterSeparator.findSeparationWeighted(testImagePath);
+
+        // Ensure the result is not null
+        assertNotNull(result, "The result should not be null");
+
+        // Extract the whitespace rows and columns
+        List<Integer> actualWhitespaceRows = result.getFirst();
+        List<Integer> actualWhitespaceCols = result.getSecond();
+
+        // Verify the rows and columns match the expected values
+        assertTrue(actualWhitespaceRows.containsAll(expectedWhitespaceRows), "The actual whitespace rows do not match the expected rows");
+        assertTrue(actualWhitespaceCols.containsAll(expectedWhitespaceCols), "The actual whitespace columns do not match the expected columns");
+    }
+
+    @Test
+    public void testFindSeparationWeightedTwo(){
+        // Path to the test BMP file
+        String testImagePath = "src/cs3110/hw4/test/bmp_files/concentric_black_squares.bmp";
+
+        // Expected whitespace rows and columns
+        List<Integer> expectedWhitespaceRows = List.of(0, 4, 5, 9, 10, 14, 15); // Example rows
+        List<Integer> expectedWhitespaceCols = List.of(0, 4, 5, 9, 10, 14, 15);    // Example columns
 
         // Call the method
         Pair<List<Integer>, List<Integer>> result = CharacterSeparator.findSeparationWeighted(testImagePath);
