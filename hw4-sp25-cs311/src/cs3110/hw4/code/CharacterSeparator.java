@@ -58,7 +58,8 @@ public class CharacterSeparator {
                         // If row and column are within bounds, create edge
                         if (new_row >= 0 && new_row < height && new_col >= 0 && new_col < width) {
                             Pair<Integer, Integer> to = new Pair<>(new_row, new_col);
-                            int weight = (rgb_grid[row][col] * -1); // Weight is the positive value of hex color
+                              int weight = (rgb_grid[row][col] == 0xFFFFFFFF) ? 0 : 1000;
+//                            int weight = (rgb_grid[row][col] * -1); // Weight is the positive value of hex color
                             graph.addEdge(from, to, weight);
                         }
                     }
