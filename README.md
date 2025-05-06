@@ -3,6 +3,10 @@
 
 To Do:
 
-- Prim's MST
-- Overview of Dynamic Programming
-- Bellman Ford's Algorithm
+1. Dynamic Programming
+- Practice Problems
+- Applications of DP, subset problem
+2. Complexity
+- P, NP, NP-Hard, NP-completeness, reductions
+3. Clique decision problem
+4. Public Key Cryptography
